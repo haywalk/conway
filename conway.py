@@ -48,50 +48,22 @@ class Cell:
 
     def get_neighbours(self, cell_array):
         '''
-        Given the array of cells, count this cell's living neighbours
+        Count the cell's neighbours
         '''
-
-        # Check if cell is on an edge
-        l_edge = self.col == 0
-        r_edge = self.col == len(cell_array) - 1
-        t_edge = self.row == 0
-        b_edge = self.row == len(cell_array) - 1
-
-        # Count neighbours
         num_of_neighbours = 0
 
-        # Check left
-        if not l_edge:
-            if cell_array[self.row][self.col - 1].is_living:
-                num_of_neighbours += 1
-        # Check top-left
-        if not l_edge and not t_edge:
-            if cell_array[self.row - 1][self.col - 1].is_living:
-                num_of_neighbours += 1
-        # Check bottom-left
-        if not l_edge and not b_edge:
-            if cell_array[self.row + 1][self.col - 1].is_living:
-                num_of_neighbours += 1
-        # Check top
-        if not t_edge:
-            if cell_array[self.row - 1][self.col].is_living:
-                num_of_neighbours += 1
-        # Check bottom
-        if not b_edge:
-            if cell_array[self.row + 1][self.col].is_living:
-                num_of_neighbours += 1
-        # Check right
-        if not r_edge:
-            if cell_array[self.row][self.col + 1].is_living:
-                num_of_neighbours += 1
-        # Check top-right
-        if not r_edge and not t_edge:
-            if cell_array[self.row - 1][self.col + 1].is_living:
-                num_of_neighbours += 1
-        # Check bottom-right
-        if not r_edge and not b_edge:
-            if cell_array[self.row + 1][self.col + 1].is_living:
-                num_of_neighbours += 1
+        neighbour_positions = [[-1, -1], [-1, 0], [-1, 1],
+            [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
+
+        for position in neighbour_positions:
+            nr = position[0]
+            nc = position[1]
+
+            try:
+                if cell_array[self.row + nr][self.col + nc].is_living:
+                    num_of_neighbours += 1
+            except IndexError:
+                continue
 
         self.neighbours = num_of_neighbours
 
