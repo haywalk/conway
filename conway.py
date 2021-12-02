@@ -28,7 +28,7 @@ import random
 # Attempt to import Pygame
 try:
     import pygame
-except:
+except ModuleNotFoundError:
     print('This program requires the Pygame library to be installed.')
     quit()
 
