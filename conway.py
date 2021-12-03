@@ -80,12 +80,16 @@ class Cell:
 
     def draw(self, win):
         '''
-        Draw the cell
+        Draw the cell to a window
         '''
         if self.is_living:
             pygame.draw.rect(win, (255, 255, 0), (self.col * 10, self.row * 10, 10, 10))
         else:
             pygame.draw.rect(win, (0, 0, 0), (self.col * 10, self.row * 10, 10, 10))
+
+'''
+Setup
+'''
 
 # Get number of rows and columns
 dimensions = int(input('Number of rows and columns: '))
@@ -111,7 +115,10 @@ for row in range(dimensions):
     # Add row to list of rows
     cell_array.append(this_row)
 
-# Main loop
+'''
+Main loop
+'''
+
 while True:
     # Check for quit
     for event in pygame.event.get():
@@ -121,18 +128,14 @@ while True:
     # Clear screen
     screen.fill((0, 0, 0))
 
-    # Draw each cell
+    # Draw each cell and count neighbours
     for row in cell_array:
         for cell in row:
             cell.draw(screen)
+            cell.get_neighbours(cell_array)
 
     # Update the screen
     pygame.display.update()
-
-    # Make each cell count its neighbours
-    for row in cell_array:
-        for cell in row:
-            cell.get_neighbours(cell_array)
 
     # Make each cell evolve
     for row in cell_array:
