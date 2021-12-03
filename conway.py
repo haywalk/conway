@@ -2,7 +2,7 @@
 conway.py
 
 Copyright 2021 Hayden D. Walker <planethaywalk@aol.com>
- 
+
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -15,22 +15,21 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-'''
 
-'''
 Conway's Game of Life
 Implemented by Hayden Walker (www.haywalk.ca)
 2021-11-30
 '''
 
 import random
+import sys
 
 # Attempt to import Pygame
 try:
     import pygame
 except ModuleNotFoundError:
     print('This program requires the Pygame library to be installed.')
-    quit()
+    sys.exit()
 
 
 class Cell:
@@ -52,16 +51,19 @@ class Cell:
         '''
         num_of_neighbours = 0
 
+		# All of the neighbouring cells' relative positions
         neighbour_positions = [[-1, -1], [-1, 0], [-1, 1],
             [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
 
-        for position in neighbour_positions:
-            nr = position[0]
-            nc = position[1]
-
+        for pos in neighbour_positions:
             try:
-                if cell_array[self.row + nr][self.col + nc].is_living:
+                if cell_array[self.row + pos[0]][self.col + pos[1]].is_living:
                     num_of_neighbours += 1
+
+                    # Compensate for python's negative indexes
+                    if self.row + pos[0] < 0 or self.col + pos[1] < 0:
+                        num_of_neighbours -= 1
+            
             except IndexError:
                 continue
 
@@ -87,10 +89,6 @@ class Cell:
         else:
             pygame.draw.rect(win, (0, 0, 0), (self.col * 10, self.row * 10, 10, 10))
 
-'''
-Setup
-'''
-
 # Get number of rows and columns
 dimensions = int(input('Number of rows and columns: '))
 delay = int(input('Delay between cycles (ms): '))
@@ -101,49 +99,43 @@ screen = pygame.display.set_mode((dimensions * 10, dimensions * 10))
 pygame.display.set_caption("Life")
 
 # Create array of rows of cells
-cell_array = list()
+cells = []
 
 # Add rows of cells to the array
-for row in range(dimensions):
+for cellrow in range(dimensions):
     # Create the row as a list of cells
-    this_row = list()
+    this_row = []
 
     # Add cells to the row
-    for col in range(dimensions):
-        this_row.append(Cell(random.randint(0, 1), col, row))
+    for column in range(dimensions):
+        this_row.append(Cell(random.randint(0, 1), column, cellrow))
 
     # Add row to list of rows
-    cell_array.append(this_row)
+    cells.append(this_row)
 
-'''
-Main loop
-'''
-
+# Main loop
 while True:
     # Check for quit
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            quit()
-    
+            sys.exit()
+
     # Clear screen
     screen.fill((0, 0, 0))
 
     # Draw each cell and count neighbours
-    for row in cell_array:
-        for cell in row:
+    for cellrow in cells:
+        for cell in cellrow:
             cell.draw(screen)
-            cell.get_neighbours(cell_array)
+            cell.get_neighbours(cells)
 
     # Update the screen
     pygame.display.update()
 
     # Make each cell evolve
-    for row in cell_array:
-        for cell in row:
+    for cellrow in cells:
+        for cell in cellrow:
             cell.evolve()
 
     # Wait a second
     pygame.time.delay(delay)
-
-
-
