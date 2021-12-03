@@ -51,7 +51,7 @@ class Cell:
         '''
         num_of_neighbours = 0
 
-		# All of the neighbouring cells' relative positions
+        # All of the neighbouring cells' relative positions
         neighbour_positions = [[-1, -1], [-1, 0], [-1, 1],
             [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
 
