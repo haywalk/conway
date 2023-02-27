@@ -1,6 +1,6 @@
 # Conway's Game of Life
 
-![Screenshot](./screenshots/50x50.png?raw=true)
+![Screenshot](./screenshots/50x50.PNG?raw=true)
 
 This is an implementation of [Conway's Game of Life](https://www.conwaylife.com/wiki/Conway%27s_Game_of_Life), a cellular automaton. I first implemented this in August 2019, when I was first learning Python. Over two years later, I was looking for a way to waste some time, so I decided to write a more polished implementation of the algorithm.
 
