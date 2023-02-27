@@ -1,5 +1,7 @@
 # Conway's Game of Life
 
+![Screenshot](./screenshots/50x50.png?raw=true)
+
 This is an implementation of [Conway's Game of Life](https://www.conwaylife.com/wiki/Conway%27s_Game_of_Life), a cellular automaton. I first implemented this in August 2019, when I was first learning Python. Over two years later, I was looking for a way to waste some time, so I decided to write a more polished implementation of the algorithm.
 
 The simulation runs on a grid of 'cells,' which are either alive or dead. Each cycle of the simulation is called a 'generation.' Which cells live into the next generation, die, or are born, is determined by the following three rules:
